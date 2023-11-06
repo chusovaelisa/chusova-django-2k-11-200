@@ -4,3 +4,5 @@
 -  'python3 -m venv venv' - создание виртуального окружения
 - 'source venv/bin/activate' - войти в вируальное окружение
 - 'pip install -r requirements.txt' - установка зависимостей
+- 'python manage.py makemigrations' - создание миграций
+- 'python manage.py migrate' - применение миграций
