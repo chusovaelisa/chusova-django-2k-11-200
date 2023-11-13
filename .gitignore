@@ -36,9 +36,7 @@ lib64/
 parts/
 sdist/
 var/
-.DS_Store/
 .DS_Store
-.idea/
 wheels/
 share/python-wheels/
 *.egg-info/
@@ -142,9 +140,7 @@ venv/
 ENV/
 env.bak/
 venv.bak/
-.idea
-idea/
-.idea/
+
 
 
 # Spyder project settings
