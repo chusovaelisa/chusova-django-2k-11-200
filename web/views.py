@@ -1,3 +1,6 @@
+from django.shortcuts import render, redirect
+from .forms import NoteForm
+from django.contrib.auth.models import AnonymousUser
 from datetime import datetime
 
 from django.contrib.auth import get_user_model, authenticate, login, logout
@@ -50,10 +53,6 @@ def logout_view(request):
     logout(request)
     return redirect("main")
 
-
-from django.shortcuts import render, redirect
-from .forms import NoteForm
-from django.contrib.auth.models import AnonymousUser
 
 def note_add_view(request):
     if request.method == 'POST':

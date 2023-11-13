@@ -1,5 +1,6 @@
-from django import forms
 from django.contrib.auth import get_user_model
+from django import forms
+from .models import Note, Category, Priority
 
 User = get_user_model()
 
@@ -17,14 +18,9 @@ class RegistrationForm(forms.ModelForm):
         model = User
         fields = ("email", "username", "password", "password2")
 
-
 class AuthForm(forms.Form):
     username = forms.CharField()
     password = forms.CharField(widget=forms.PasswordInput)
-
-
-from django import forms
-from .models import Note, Category, Priority
 
 class NoteForm(forms.ModelForm):
     CATEGORY_CHOICES = [
