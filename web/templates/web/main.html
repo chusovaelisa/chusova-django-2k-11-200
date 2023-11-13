@@ -1,0 +1,10 @@
+{% extends 'web/base.html' %}
+{% block content %}
+    <h1>Добро пожаловать</h1>
+
+    {% if not user.is_anonymous %}
+        <p>Вы авторизованы как <b>{{ user.username }}</b></p>>
+
+    {% endif %}
+    <a href="{% url 'note_add' %}">Создать заметку</a>
+{% endblock %}
