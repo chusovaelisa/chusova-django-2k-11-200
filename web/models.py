@@ -1,11 +1,14 @@
 from django.db import models
 from django.contrib.auth.models import User
 
+
 class Type(models.Model):
     type_of_note = models.CharField(max_length=256)
 
+
 class Category(models.Model):
     category_name = models.CharField(max_length=256)
+
 
 class Note(models.Model):
     note_date = models.DateField()
