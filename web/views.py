@@ -68,3 +68,46 @@ def note_add_view(request):
         form = NoteForm()
 
     return render(request, 'web/note.html', {'form': form})
+
+
+def note_add_view(request):
+    if request.method == 'POST':
+        form = NoteForm(request.POST)
+        if form.is_valid():
+            if isinstance(request.user, AnonymousUser):
+                form.instance.user_id = 1
+            else:
+                form.instance.user = request.user
+
+            form.instance.note_date = datetime.now().date()
+
+            form.save()
+            return redirect('create_note')
+    else:
+        form = NoteForm()
+
+    return render(request, 'web/note.html', {'form': form})
+
+
+from django.shortcuts import render, redirect
+from .forms import NoteForm
+from django.contrib.auth.models import AnonymousUser
+from datetime import datetime
+
+def create_note_view(request):
+    if request.method == 'POST':
+        form = NoteForm(request.POST)
+        if form.is_valid():
+            if isinstance(request.user, AnonymousUser):
+                form.instance.user_id = 1
+            else:
+                form.instance.user = request.user
+
+            form.instance.note_date = datetime.now().date()
+
+            form.save()
+            return redirect('create_note')
+    else:
+        form = NoteForm()
+
+    return render(request, 'web/create_note.html', {'form': form})

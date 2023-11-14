@@ -1,11 +1,11 @@
 from django.contrib.auth import get_user_model
 from django import forms
-from .models import Note, Category, Priority
-
+from .models import Note, HomeCategory as Category, Priority
 User = get_user_model()
 
 
 class RegistrationForm(forms.ModelForm):
+    password = forms.CharField(widget=forms.PasswordInput)
     password2 = forms.CharField(widget=forms.PasswordInput)
 
     def clean(self):
@@ -22,22 +22,20 @@ class AuthForm(forms.Form):
     username = forms.CharField()
     password = forms.CharField(widget=forms.PasswordInput)
 
+
+from django import forms
+from .models import Note, HomeCategory, WorkCategory, FamilyCategory, ShopCategory
+
 class NoteForm(forms.ModelForm):
     CATEGORY_CHOICES = [
-        ('дом', 'Дом'),
-        ('работа', 'Работа'),
-        ('семья', 'Семья'),
-        ('магазин', 'Магазин')
+        ('home', 'Дом'),
+        ('work', 'Работа'),
+        ('family', 'Семья'),
+        ('shop', 'Магазин')
     ]
 
-    PRIORITY_CHOICES = [
-        ('маловажно', 'Маловажно'),
-        ('важно', 'Важно'),
-    ]
-
-    priority = forms.ChoiceField(choices=PRIORITY_CHOICES, initial='маловажно')
-    category = forms.ChoiceField(choices=CATEGORY_CHOICES)
+    category = forms.ChoiceField(choices=CATEGORY_CHOICES, initial='work')
 
     class Meta:
         model = Note
-        fields = ['title', 'category', 'priority']
+        fields = ['title', 'category']
