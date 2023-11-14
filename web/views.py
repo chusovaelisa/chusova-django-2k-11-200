@@ -6,6 +6,7 @@ from datetime import datetime
 from django.contrib.auth import get_user_model, authenticate, login, logout
 
 from web.forms import RegistrationForm, AuthForm
+from .models import HomeCategory, WorkCategory, FamilyCategory, ShopCategory
 
 User = get_user_model()
 
@@ -105,9 +106,24 @@ def create_note_view(request):
 
             form.instance.note_date = datetime.now().date()
 
+            category_choice = form.cleaned_data['category']
+
+            if category_choice == 'home':
+                category, created = HomeCategory.objects.get_or_create(category_name='Дом')
+            elif category_choice == 'work':
+                category, created = WorkCategory.objects.get_or_create(category_name='Работа')
+            elif category_choice == 'family':
+                category, created = FamilyCategory.objects.get_or_create(category_name='Семья')
+            elif category_choice == 'shop':
+                category, created = ShopCategory.objects.get_or_create(category_name='Магазин')
+
+            form.instance.home_category = category
+
             form.save()
             return redirect('create_note')
     else:
         form = NoteForm()
 
     return render(request, 'web/create_note.html', {'form': form})
+
+
