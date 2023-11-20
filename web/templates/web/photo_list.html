@@ -1,0 +1,25 @@
+<!-- Создайте файл photo_list.html в папке templates вашего приложения -->
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Список фотографий</title>
+</head>
+<body>
+
+<h1>Список фотографий</h1>
+
+{% if photos %}
+    <ul>
+        {% for photo in photos %}
+            <li>
+                <img src="{{ photo.image.url }}" alt="{{ photo.title }}">
+            </li>
+        {% endfor %}
+    </ul>
+{% else %}
+    <p>Нет фотографий.</p>
+{% endif %}
+
+</body>
+</html>

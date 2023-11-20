@@ -1,8 +1,9 @@
 from django.contrib.auth import get_user_model
 from django import forms
-from .models import Note, HomeCategory as Category, Priority
-User = get_user_model()
+from .models import Note,  Photo, Category
 
+
+User = get_user_model()
 
 class RegistrationForm(forms.ModelForm):
     password = forms.CharField(widget=forms.PasswordInput)
@@ -23,19 +24,20 @@ class AuthForm(forms.Form):
     password = forms.CharField(widget=forms.PasswordInput)
 
 
-from django import forms
-from .models import Note, HomeCategory, WorkCategory, FamilyCategory, ShopCategory
+
 
 class NoteForm(forms.ModelForm):
-    CATEGORY_CHOICES = [
-        ('home', 'Дом'),
-        ('work', 'Работа'),
-        ('family', 'Семья'),
-        ('shop', 'Магазин')
-    ]
-
-    category = forms.ChoiceField(choices=CATEGORY_CHOICES, initial='work')
-
+    category = forms.ChoiceField(
+        label="Категория", choices=Category.CategoryType.choices,
+        widget=forms.Select(attrs={'class': 'form-control'})
+    )
     class Meta:
         model = Note
-        fields = ['title', 'category']
+        fields = ['title', 'content', 'category', ]
+
+
+
+class PhotoForm(forms.ModelForm):
+    class Meta:
+        model = Photo
+        fields = ['image', 'caption']

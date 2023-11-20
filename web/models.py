@@ -1,33 +1,45 @@
 from django.db import models
 from django.contrib.auth.models import User
+from PIL import Image
+from datetime import date
 
-class Priority(models.Model):
-    priority_of_note = models.CharField(max_length=256)
+class Category(models.Model):
+    class CategoryType(models.TextChoices):
+        HOME = "home", "Дом"
+        WORK = "work", "Работа"
+        FAMILY = "family", "Семья"
+        SHOP = "shop", "Магазин"
+    category_type = models.CharField(max_length=20, choices=CategoryType.choices)
 
-class HomeCategory(models.Model):
-    category_name = models.CharField(max_length=256)
-    users = models.ManyToManyField(User)
 
-class WorkCategory(models.Model):
-    category_name = models.CharField(max_length=256)
-    users = models.ManyToManyField(User)
+class Photo(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    image = models.ImageField(upload_to='photos/')
+    caption = models.TextField()
+    created_at = models.DateTimeField(auto_now_add=True)
 
-class FamilyCategory(models.Model):
-    category_name = models.CharField(max_length=256)
-    users = models.ManyToManyField(User)
+    def save(self, *args, **kwargs):
+        super().save(*args, **kwargs)
 
-class ShopCategory(models.Model):
-    category_name = models.CharField(max_length=256)
-    users = models.ManyToManyField(User)
+        img = Image.open(self.image.path)
+        if img.height > 300 or img.width > 300:
+            output_size = (300, 300)
+            img.thumbnail(output_size)
+            img.save(self.image.path)
 
+    def __str__(self):
+        return f'{self.user.username} - {self.caption}'
+
+Note = None
 class Note(models.Model):
-    note_date = models.DateField()
-    title = models.CharField(max_length=256)
-    is_valid = models.BooleanField(default=True, db_column='is_valid')
-    priority = models.ForeignKey(Priority, on_delete=models.PROTECT, null=True, blank=True)
-    home_category = models.ForeignKey(HomeCategory, on_delete=models.PROTECT, null=True, blank=True)
-    work_category = models.ForeignKey(WorkCategory, on_delete=models.PROTECT, null=True, blank=True)
-    family_category = models.ForeignKey(FamilyCategory, on_delete=models.PROTECT, null=True, blank=True)
-    shop_category = models.ForeignKey(ShopCategory, on_delete=models.PROTECT, null=True, blank=True)
+    note_date = models.DateField(default=date.today)
+    title = models.CharField(max_length=255)
+    content = models.TextField()
+    is_valid = models.BooleanField(default=True)
+    category = models.CharField(max_length=255, null=True, blank=True, default='unknown')
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     image = models.ImageField(upload_to='todo/', null=True, blank=True)
+
+    def __str__(self):
+        return f"{self.title} - {self.category}"
+

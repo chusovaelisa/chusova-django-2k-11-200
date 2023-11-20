@@ -2,10 +2,17 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
-    hello
+    <title>Create Note</title>
 </head>
-<body>
-
+    <body>
+    {% if not user.is_anonymous %}
+      <h2>Create Note</h2>
+      <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Save</button>
+      </form>
+      {% endif %}
+    </form>
 </body>
 </html>

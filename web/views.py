@@ -1,40 +1,31 @@
-from django.shortcuts import render, redirect
-from .forms import NoteForm
-from django.contrib.auth.models import AnonymousUser
+from django.contrib.auth.decorators import login_required
+from django.shortcuts import render, redirect, get_object_or_404
 from datetime import datetime
-
+from .forms import RegistrationForm, AuthForm, NoteForm, PhotoForm
 from django.contrib.auth import get_user_model, authenticate, login, logout
-
-from web.forms import RegistrationForm, AuthForm
-from .models import HomeCategory, WorkCategory, FamilyCategory, ShopCategory
+from .models import Note, Photo, Category
+from django.views.generic import ListView
 
 User = get_user_model()
 
-
 def main_view(request):
     year = datetime.now().year
-    return render(request,"web/main.html",{
-        "year":year
-    })
-
+    return render(request, "web/main.html", {"year": year})
 
 def registration_view(request):
-    form = RegistrationForm
+    form = RegistrationForm()
     is_success = False
     if request.method == 'POST':
         form = RegistrationForm(data=request.POST)
         if form.is_valid():
-            user =  User(
+            user = User(
                 username=form.cleaned_data['username'],
                 email=form.cleaned_data['email'],
             )
             user.set_password(form.cleaned_data['password'])
             user.save()
             is_success = True
-    return render(request,"web/registration.html",
-                  {"form": form,"is_success": is_success
-                   })
-
+    return render(request, "web/registration.html", {"form": form, "is_success": is_success})
 
 def auth_view(request):
     form = AuthForm()
@@ -43,87 +34,56 @@ def auth_view(request):
         if form.is_valid():
             user = authenticate(**form.cleaned_data)
             if user is None:
-                form.add_error(None,"Введены неверные данные")
+                form.add_error(None, "Введены неверные данные")
             else:
                 login(request, user)
                 return redirect("main")
-    return render(request,"web/auth.html",{"form": form})
-
+    return render(request, "web/auth.html", {"form": form})
 
 def logout_view(request):
     logout(request)
     return redirect("main")
 
 
-def note_add_view(request):
-    if request.method == 'POST':
-        form = NoteForm(request.POST)
-        if form.is_valid():
-            if isinstance(request.user, AnonymousUser):
-                form.instance.user_id = 1
-            else:
-                form.instance.user = request.user
-            form.save()
-            return redirect('some_success_url')
-    else:
-        form = NoteForm()
-
-    return render(request, 'web/note.html', {'form': form})
-
-
-def note_add_view(request):
-    if request.method == 'POST':
-        form = NoteForm(request.POST)
-        if form.is_valid():
-            if isinstance(request.user, AnonymousUser):
-                form.instance.user_id = 1
-            else:
-                form.instance.user = request.user
-
-            form.instance.note_date = datetime.now().date()
-
-            form.save()
-            return redirect('create_note')
-    else:
-        form = NoteForm()
-
-    return render(request, 'web/note.html', {'form': form})
-
-
-from django.shortcuts import render, redirect
-from .forms import NoteForm
-from django.contrib.auth.models import AnonymousUser
-from datetime import datetime
-
 def create_note_view(request):
     if request.method == 'POST':
         form = NoteForm(request.POST)
         if form.is_valid():
-            if isinstance(request.user, AnonymousUser):
-                form.instance.user_id = 1
-            else:
-                form.instance.user = request.user
-
-            form.instance.note_date = datetime.now().date()
-
-            category_choice = form.cleaned_data['category']
-
-            if category_choice == 'home':
-                category, created = HomeCategory.objects.get_or_create(category_name='Дом')
-            elif category_choice == 'work':
-                category, created = WorkCategory.objects.get_or_create(category_name='Работа')
-            elif category_choice == 'family':
-                category, created = FamilyCategory.objects.get_or_create(category_name='Семья')
-            elif category_choice == 'shop':
-                category, created = ShopCategory.objects.get_or_create(category_name='Магазин')
-
-            form.instance.home_category = category
-
-            form.save()
-            return redirect('create_note')
+            note = form.save(commit=False)
+            note.user = request.user
+            note.save()
+            return redirect('list_notes')
     else:
         form = NoteForm()
 
     return render(request, 'web/create_note.html', {'form': form})
 
 
+from PIL import Image
+
+def create_photo_view(request):
+    if request.method == 'POST':
+        form = PhotoForm(data=request.POST, files=request.FILES, )
+        if form.is_valid():
+            photo = form.save(commit=False)
+            photo.user = request.user
+            photo.save()
+
+            img = Image.open(photo.image.path)
+
+            return redirect('photo_list')
+
+    else:
+        form = PhotoForm()
+
+    return render(request, 'web/create_photo.html', {'form': form})
+
+
+class PhotoListView(ListView):
+    model = Photo
+    template_name = 'photo_list.html'
+    context_object_name = 'photos'
+
+def list_notes_view(request):
+    notes = Note.objects.all()
+    return render(request, 'web/list_notes.html', {'notes': notes})
