@@ -3,18 +3,20 @@ from django.contrib.auth.models import User
 from PIL import Image
 from datetime import date
 
+
 class Category(models.Model):
     class CategoryType(models.TextChoices):
         HOME = "home", "Дом"
         WORK = "work", "Работа"
         FAMILY = "family", "Семья"
         SHOP = "shop", "Магазин"
+
     category_type = models.CharField(max_length=20, choices=CategoryType.choices)
 
 
 class Photo(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    image = models.ImageField(upload_to='photos/')
+    image = models.ImageField(upload_to="photos/")
     caption = models.TextField()
     created_at = models.DateTimeField(auto_now_add=True)
 
@@ -28,18 +30,22 @@ class Photo(models.Model):
             img.save(self.image.path)
 
     def __str__(self):
-        return f'{self.user.username} - {self.caption}'
+        return f"{self.user.username} - {self.caption}"
+
 
 Note = None
+
+
 class Note(models.Model):
     note_date = models.DateField(default=date.today)
     title = models.CharField(max_length=255)
     content = models.TextField()
     is_valid = models.BooleanField(default=True)
-    category = models.CharField(max_length=255, null=True, blank=True, default='unknown')
+    category = models.CharField(
+        max_length=255, null=True, blank=True, default="unknown"
+    )
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    image = models.ImageField(upload_to='todo/', null=True, blank=True)
+    image = models.ImageField(upload_to="todo/", null=True, blank=True)
 
     def __str__(self):
         return f"{self.title} - {self.category}"
-

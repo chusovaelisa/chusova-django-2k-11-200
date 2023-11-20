@@ -4,15 +4,14 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('web', '0006_note'),
+        ("web", "0006_note"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='note',
-            name='content',
-            field=models.TextField(default='', max_length=2000),
+            model_name="note",
+            name="content",
+            field=models.TextField(default="", max_length=2000),
         ),
     ]

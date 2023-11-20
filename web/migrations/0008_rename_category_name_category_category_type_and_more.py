@@ -4,22 +4,21 @@ from django.db import migrations
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('web', '0007_note_content'),
+        ("web", "0007_note_content"),
     ]
 
     operations = [
         migrations.RenameField(
-            model_name='category',
-            old_name='category_name',
-            new_name='category_type',
+            model_name="category",
+            old_name="category_name",
+            new_name="category_type",
         ),
         migrations.RemoveField(
-            model_name='category',
-            name='users',
+            model_name="category",
+            name="users",
         ),
         migrations.DeleteModel(
-            name='UserCategory',
+            name="UserCategory",
         ),
     ]

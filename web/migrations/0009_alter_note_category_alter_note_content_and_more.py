@@ -5,35 +5,36 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('web', '0008_rename_category_name_category_category_type_and_more'),
+        ("web", "0008_rename_category_name_category_category_type_and_more"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='note',
-            name='category',
-            field=models.CharField(blank=True, default='unknown', max_length=255, null=True),
+            model_name="note",
+            name="category",
+            field=models.CharField(
+                blank=True, default="unknown", max_length=255, null=True
+            ),
         ),
         migrations.AlterField(
-            model_name='note',
-            name='content',
+            model_name="note",
+            name="content",
             field=models.TextField(),
         ),
         migrations.AlterField(
-            model_name='note',
-            name='is_valid',
+            model_name="note",
+            name="is_valid",
             field=models.BooleanField(default=True),
         ),
         migrations.AlterField(
-            model_name='note',
-            name='note_date',
+            model_name="note",
+            name="note_date",
             field=models.DateField(default=datetime.date.today),
         ),
         migrations.AlterField(
-            model_name='note',
-            name='title',
+            model_name="note",
+            name="title",
             field=models.CharField(max_length=255),
         ),
     ]

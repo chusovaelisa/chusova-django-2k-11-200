@@ -6,7 +6,6 @@ import django.db.models.deletion
 
 
 class Migration(migrations.Migration):
-
     initial = True
 
     dependencies = [
@@ -15,30 +14,70 @@ class Migration(migrations.Migration):
 
     operations = [
         migrations.CreateModel(
-            name='Category',
+            name="Category",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('category_name', models.CharField(max_length=256)),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("category_name", models.CharField(max_length=256)),
             ],
         ),
         migrations.CreateModel(
-            name='Type',
+            name="Type",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('type_of_note', models.CharField(max_length=256)),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("type_of_note", models.CharField(max_length=256)),
             ],
         ),
         migrations.CreateModel(
-            name='Note',
+            name="Note",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('note_date', models.DateField()),
-                ('title', models.CharField(max_length=256)),
-                ('is_valid', models.BooleanField(db_column='is_valid', default=True)),
-                ('image', models.ImageField(blank=True, null=True, upload_to='todo/')),
-                ('category', models.ForeignKey(on_delete=django.db.models.deletion.PROTECT, to='web.category')),
-                ('type', models.ForeignKey(on_delete=django.db.models.deletion.PROTECT, to='web.type')),
-                ('user', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to=settings.AUTH_USER_MODEL)),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("note_date", models.DateField()),
+                ("title", models.CharField(max_length=256)),
+                ("is_valid", models.BooleanField(db_column="is_valid", default=True)),
+                ("image", models.ImageField(blank=True, null=True, upload_to="todo/")),
+                (
+                    "category",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.PROTECT, to="web.category"
+                    ),
+                ),
+                (
+                    "type",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.PROTECT, to="web.type"
+                    ),
+                ),
+                (
+                    "user",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        to=settings.AUTH_USER_MODEL,
+                    ),
+                ),
             ],
         ),
     ]

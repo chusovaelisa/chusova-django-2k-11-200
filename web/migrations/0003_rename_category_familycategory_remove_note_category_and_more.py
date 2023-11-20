@@ -6,72 +6,120 @@ import django.db.models.deletion
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
         migrations.swappable_dependency(settings.AUTH_USER_MODEL),
-        ('web', '0002_rename_type_priority_and_more'),
+        ("web", "0002_rename_type_priority_and_more"),
     ]
 
     operations = [
         migrations.RenameModel(
-            old_name='Category',
-            new_name='FamilyCategory',
+            old_name="Category",
+            new_name="FamilyCategory",
         ),
         migrations.RemoveField(
-            model_name='note',
-            name='category',
+            model_name="note",
+            name="category",
         ),
         migrations.RemoveField(
-            model_name='note',
-            name='type',
+            model_name="note",
+            name="type",
         ),
         migrations.AddField(
-            model_name='note',
-            name='family_category',
-            field=models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.PROTECT, to='web.familycategory'),
+            model_name="note",
+            name="family_category",
+            field=models.ForeignKey(
+                blank=True,
+                null=True,
+                on_delete=django.db.models.deletion.PROTECT,
+                to="web.familycategory",
+            ),
         ),
         migrations.AddField(
-            model_name='note',
-            name='priority',
-            field=models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.PROTECT, to='web.priority'),
+            model_name="note",
+            name="priority",
+            field=models.ForeignKey(
+                blank=True,
+                null=True,
+                on_delete=django.db.models.deletion.PROTECT,
+                to="web.priority",
+            ),
         ),
         migrations.CreateModel(
-            name='WorkCategory',
+            name="WorkCategory",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('category_name', models.CharField(max_length=256)),
-                ('users', models.ManyToManyField(to=settings.AUTH_USER_MODEL)),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("category_name", models.CharField(max_length=256)),
+                ("users", models.ManyToManyField(to=settings.AUTH_USER_MODEL)),
             ],
         ),
         migrations.CreateModel(
-            name='ShopCategory',
+            name="ShopCategory",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('category_name', models.CharField(max_length=256)),
-                ('users', models.ManyToManyField(to=settings.AUTH_USER_MODEL)),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("category_name", models.CharField(max_length=256)),
+                ("users", models.ManyToManyField(to=settings.AUTH_USER_MODEL)),
             ],
         ),
         migrations.CreateModel(
-            name='HomeCategory',
+            name="HomeCategory",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('category_name', models.CharField(max_length=256)),
-                ('users', models.ManyToManyField(to=settings.AUTH_USER_MODEL)),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("category_name", models.CharField(max_length=256)),
+                ("users", models.ManyToManyField(to=settings.AUTH_USER_MODEL)),
             ],
         ),
         migrations.AddField(
-            model_name='note',
-            name='home_category',
-            field=models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.PROTECT, to='web.homecategory'),
+            model_name="note",
+            name="home_category",
+            field=models.ForeignKey(
+                blank=True,
+                null=True,
+                on_delete=django.db.models.deletion.PROTECT,
+                to="web.homecategory",
+            ),
         ),
         migrations.AddField(
-            model_name='note',
-            name='shop_category',
-            field=models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.PROTECT, to='web.shopcategory'),
+            model_name="note",
+            name="shop_category",
+            field=models.ForeignKey(
+                blank=True,
+                null=True,
+                on_delete=django.db.models.deletion.PROTECT,
+                to="web.shopcategory",
+            ),
         ),
         migrations.AddField(
-            model_name='note',
-            name='work_category',
-            field=models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.PROTECT, to='web.workcategory'),
+            model_name="note",
+            name="work_category",
+            field=models.ForeignKey(
+                blank=True,
+                null=True,
+                on_delete=django.db.models.deletion.PROTECT,
+                to="web.workcategory",
+            ),
         ),
     ]
