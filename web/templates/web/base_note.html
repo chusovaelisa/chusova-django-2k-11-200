@@ -1,0 +1,35 @@
+<!-- base_note.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}Note{% endblock %}</title>
+    <style>
+        label {
+            display: block;
+            margin-top: 10px;
+        }
+
+        input, textarea, select {
+            width: 30%;
+            box-sizing: border-box;
+            margin-bottom: 10px;
+        }
+
+        button {
+            margin-top: 10px;
+            width: 30%;
+        }
+
+        div button {
+            width: 48%;
+            display: inline-block;
+            box-sizing: border-box;
+            margin-right: 4%;
+        }
+    </style>
+</head>
+<body>
+    {% block content %}{% endblock %}
+</body>
+</html>

@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Photo Detail</title>
+</head>
+<body>
+    {% if photo %}
+        <h2>Photo Detail</h2>
+        <img src="{{ photo.image.url }}" alt="{{ photo.caption }}">
+        <p>Caption: {{ photo.caption }}</p>
+        <p>Created At: {{ photo.created_at }}</p>
+    {% endif %}
+
+    <h1>Create Photo</h1>
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Сохранить</button>
+    </form>
+</body>
+</html>
