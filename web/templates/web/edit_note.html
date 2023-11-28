@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Edit Note</title>
+    <style>
+        label {
+            display: block;
+            margin-top: 10px;
+        }
+
+        input, textarea, select {
+            width: 30%;
+            box-sizing: border-box;
+            margin-bottom: 10px;
+        }
+
+        button {
+            margin-top: 10px;
+            width: 30%;
+        }
+
+        div button {
+            width: 48%;
+            display: inline-block;
+            box-sizing: border-box;
+            margin-right: 4%;
+        }
+    </style>
+</head>
+<body>
+    {% if not user.is_anonymous %}
+        <h2>Edit Note</h2>
+
+        <hr>
+        <form method="post" action="">
+            {% csrf_token %}
+
+            <label for="id_title">Название заметки:</label>
+            <input type="text" name="title" id="id_title" class="form-control" value="{{ note_instance.title|default:'' }}" required>
+
+            <label for="id_content">Содержимое:</label>
+            <textarea name="content" id="id_content" class="form-control" required>{{ note_instance.content|default:'' }}</textarea>
+
+            <button type="submit">Сохранить изменения</button>
+        </form>
+    {% endif %}
+</body>
+</html>

@@ -3,16 +3,91 @@
 <head>
     <meta charset="UTF-8">
     <title>Create Note</title>
+    <style>
+        label {
+            display: block;
+            margin-top: 10px;
+        }
+
+        input, textarea, select {
+            width: 30%;
+            box-sizing: border-box;
+            margin-bottom: 10px;
+        }
+
+        button {
+            margin-top: 10px;
+            width: 30%;
+        }
+
+        div button {
+            width: 48%;
+            display: inline-block;
+            box-sizing: border-box;
+            margin-right: 4%;
+        }
+    </style>
 </head>
-    <body>
+<body>
     {% if not user.is_anonymous %}
-      <h2>Create Note</h2>
-      <form method="post" enctype="multipart/form-data">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit">Save</button>
-      </form>
-      {% endif %}
-    </form>
+        <h2>Create Note</h2>
+
+        <hr>
+        <form method="post" action="{% url 'create_note' %}">
+            {% csrf_token %}
+
+            <!-- Fields for adding or editing a note -->
+            <label for="id_title">Название заметки:</label>
+            <input type="text" name="title" id="id_title" class="form-control" value="{{ note_form.instance.title|default:'' }}">
+
+            <label for="id_content">Содержимое:</label>
+            <textarea name="content" id="id_content" class="form-control">{{ note_form.instance.content|default:'' }}</textarea>
+
+            <label for="id_category">Выберите категорию:</label>
+            <select name="category" id="id_category" class="form-control">
+                {% for category in categories %}
+                    <option value="{{ category.id }}">{{ category.category_type }}</option>
+                {% endfor %}
+            </select>
+
+            <button type="submit" name="add_note">Сохранить заметку</button>
+
+            <!-- Additional button for creating a new category -->
+            <div><button type="submit" name="add_category">Создать новую категорию</button></div>
+
+        </form>
+
+        <h2>All Notes</h2>
+        <ul>
+            {% for note in notes %}
+                <li>
+                    <strong>{{ note.title }}</strong><br>
+                    {{ note.content }}<br>
+                    <form method="post" action="{% url 'edit_note' note.id %}">
+                        {% csrf_token %}
+                        <button type="submit">Изменить</button>
+                    </form>
+                </li>
+            {% endfor %}
+        </ul>
+
+        <div class="pagination">
+            <span class="step-links">
+                {% if notes.has_previous %}
+                    <a href="?page=1">&laquo; first</a>
+                    <a href="?page={{ notes.previous_page_number }}">previous</a>
+                {% endif %}
+
+                <span class="current">
+                    Страница {{ notes.number }} из {{ notes.paginator.num_pages }}.
+                </span>
+
+                {% if notes.has_next %}
+                    <a href="?page={{ notes.next_page_number }}">next</a>
+                    <a href="?page={{ notes.paginator.num_pages }}">last &raquo;</a>
+                {% endif %}
+            </span>
+        </div>
+    {% endif %}
 </body>
 </html>

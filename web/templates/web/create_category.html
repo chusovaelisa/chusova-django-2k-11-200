@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Create Category</title>
+</head>
+<body>
+    <h2>Create Category</h2>
+
+    <hr>
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ category_form.as_p }}
+        <button type="submit">Save Category</button>
+    </form>
+</body>
+</html>
