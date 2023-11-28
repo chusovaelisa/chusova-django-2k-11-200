@@ -1,37 +1,10 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Edit Note</title>
-    <style>
-        label {
-            display: block;
-            margin-top: 10px;
-        }
+{% extends 'web/base_note.html' %}
 
-        input, textarea, select {
-            width: 30%;
-            box-sizing: border-box;
-            margin-bottom: 10px;
-        }
+{% block title %}Edit Note{% endblock %}
 
-        button {
-            margin-top: 10px;
-            width: 30%;
-        }
-
-        div button {
-            width: 48%;
-            display: inline-block;
-            box-sizing: border-box;
-            margin-right: 4%;
-        }
-    </style>
-</head>
-<body>
+{% block content %}
     {% if not user.is_anonymous %}
         <h2>Edit Note</h2>
-
         <hr>
         <form method="post" action="">
             {% csrf_token %}
@@ -45,5 +18,4 @@
             <button type="submit">Сохранить изменения</button>
         </form>
     {% endif %}
-</body>
-</html>
+{% endblock %}

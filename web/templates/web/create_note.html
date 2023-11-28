@@ -1,42 +1,15 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Create Note</title>
-    <style>
-        label {
-            display: block;
-            margin-top: 10px;
-        }
+{% extends 'web/base_note.html' %}
 
-        input, textarea, select {
-            width: 30%;
-            box-sizing: border-box;
-            margin-bottom: 10px;
-        }
+{% block title %}Create Note{% endblock %}
 
-        button {
-            margin-top: 10px;
-            width: 30%;
-        }
-
-        div button {
-            width: 48%;
-            display: inline-block;
-            box-sizing: border-box;
-            margin-right: 4%;
-        }
-    </style>
-</head>
-<body>
+{% block content %}
     {% if not user.is_anonymous %}
         <h2>Create Note</h2>
-
         <hr>
         <form method="post" action="{% url 'create_note' %}">
             {% csrf_token %}
 
-            <!-- Fields for adding or editing a note -->
+            <!-- Fields for adding a note -->
             <label for="id_title">Название заметки:</label>
             <input type="text" name="title" id="id_title" class="form-control" value="{{ note_form.instance.title|default:'' }}">
 
@@ -89,5 +62,4 @@
             </span>
         </div>
     {% endif %}
-</body>
-</html>
+{% endblock %}

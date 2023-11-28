@@ -38,8 +38,8 @@ class Note(models.Model):
     title = models.CharField(max_length=255)
     content = models.TextField()
     is_valid = models.BooleanField(default=True)
-    category = models.CharField(
-        max_length=255, null=True, blank=True, default="unknown"
+    category = models.ForeignKey(
+        Category, on_delete=models.SET_NULL, null=True, blank=True
     )
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     image = models.ImageField(upload_to="todo/", null=True, blank=True)
