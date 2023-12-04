@@ -41,4 +41,16 @@ class CategoryForm(forms.ModelForm):
 class PhotoForm(forms.ModelForm):
     class Meta:
         model = Photo
-        fields = ["image", "caption"]
+        fields = ["image"]
+
+class NoteFilterForm(forms.Form):
+    search = forms.CharField(widget=forms.TextInput(attrs={"placeholder": "Поиск"}), required=False)
+    category = forms.ModelChoiceField(queryset=Category.objects.all(), empty_label="Выберите категорию", required=False)
+    sort_by = forms.ChoiceField(
+        choices=[
+            ('', 'Сортировать по'),
+            ('alphabetical', 'Алфавиту'),
+            ('date_added', 'Дате добавления'),
+        ],
+        required=False,
+    )
