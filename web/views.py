@@ -1,6 +1,13 @@
 from django.shortcuts import redirect, render, get_object_or_404
 from datetime import datetime
-from .forms import RegistrationForm, AuthForm, PhotoForm, NoteForm, CategoryForm, NoteFilterForm
+from .forms import (
+    RegistrationForm,
+    AuthForm,
+    PhotoForm,
+    NoteForm,
+    CategoryForm,
+    NoteFilterForm,
+)
 from django.contrib.auth import get_user_model, authenticate, login, logout
 from .models import Photo, Category, Note
 from django.views.generic import ListView
@@ -62,16 +69,16 @@ def create_note_view(request, note_id=None):
     filter_form.is_valid()
     filters = filter_form.cleaned_data
 
-    if filters['search']:
-        notes = notes.filter(title=filters['search'])
+    if filters["search"]:
+        notes = notes.filter(title=filters["search"])
 
-    if filters['category']:
-        notes = notes.filter(category=filters['category'])
+    if filters["category"]:
+        notes = notes.filter(category=filters["category"])
 
-    if filters['sort_by'] == 'alphabetical':
-        notes = notes.order_by('title')
-    elif filters['sort_by'] == 'date_added':
-        notes = notes.order_by('note_date')
+    if filters["sort_by"] == "alphabetical":
+        notes = notes.order_by("title")
+    elif filters["sort_by"] == "date_added":
+        notes = notes.order_by("note_date")
 
     paginator = Paginator(notes, 10)
     page = request.GET.get("page")
@@ -181,11 +188,12 @@ def edit_note_view(request, note_id):
         {"note_form": form, "user": request.user, "note_instance": note_instance},
     )
 
+
 def delete_note_view(request, note_id):
     note = get_object_or_404(Note, id=note_id)
 
-    if request.method == 'POST':
+    if request.method == "POST":
         note.delete()
-        return redirect('main')
+        return redirect("main")
 
-    return render(request, 'web/delete_note_confirm.html', {'note': note})
+    return render(request, "web/delete_note_confirm.html", {"note": note})

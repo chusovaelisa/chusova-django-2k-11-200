@@ -8,7 +8,8 @@ from web.views import (
     create_photo_view,
     PhotoListView,
     create_category_view,
-    edit_note_view, delete_note_view,
+    edit_note_view,
+    delete_note_view,
 )
 
 urlpatterns = [
@@ -21,6 +22,5 @@ urlpatterns = [
     path("create_note/", create_note_view, name="create_note"),
     path("edit_note/<int:note_id>/", edit_note_view, name="edit_note"),
     path("create_category/", create_category_view, name="create_category"),
-    path('delete_note/<int:note_id>/', delete_note_view, name='delete_note'),
-
+    path("delete_note/<int:note_id>/", delete_note_view, name="delete_note"),
 ]
