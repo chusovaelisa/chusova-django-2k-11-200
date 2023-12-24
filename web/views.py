@@ -55,7 +55,7 @@ def logout_view(request):
 
 
 def create_note_view(request, note_id=None):
-    notes = Note.objects.all()
+    notes = Note.objects.filter(user=request.user)
     categories = Category.objects.all()
 
     filter_form = NoteFilterForm(request.GET)

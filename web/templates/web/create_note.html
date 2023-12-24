@@ -7,7 +7,6 @@
         <form method="post" action="{% url 'create_note' %}">
             {% csrf_token %}
 
-            <!-- Fields for adding a note -->
             <label for="id_title">Название заметки:</label>
             <input type="text" name="title" id="id_title" class="form-control" value="{{ note_form.instance.title|default:'' }}">
 
@@ -21,15 +20,16 @@
                 {% endfor %}
             </select>
 
-            <button type="submit" name="add_note" class="btn btn-primary">Сохранить заметку</button>
+            <button type="submit" name="add_category" class="btn btn-secondary">Создать новую категорию</button>
 
             <!-- Additional button for creating a new category -->
             <div style="margin-top: 10px;">
-                <button type="submit" name="add_category" class="btn btn-secondary">Создать новую категорию</button>
+                <button type="submit" name="add_note" class="btn btn-primary">Сохранить заметку</button>
+
             </div>
         </form>
 
-        <h2>All Notes</h2>
+        <h2>Все заметки</h2>
         <form action="">
             <b>Фильтры</b>
             {% for field in filter_form %}
@@ -59,8 +59,8 @@
         <div class="pagination">
             <span class="step-links">
                 {% if notes.has_previous %}
-                    <a href="?page=1">&laquo; first</a>
-                    <a href="?page={{ notes.previous_page_number }}">previous</a>
+                    <a href="?page=1">&laquo; первая</a>
+                    <a href="?page={{ notes.previous_page_number }}">назад</a>
                 {% endif %}
 
                 <span class="current">
@@ -68,8 +68,8 @@
                 </span>
 
                 {% if notes.has_next %}
-                    <a href="?page={{ notes.next_page_number }}">next</a>
-                    <a href="?page={{ notes.paginator.num_pages }}">last &raquo;</a>
+                    <a href="?page={{ notes.next_page_number }}">следующая</a>
+                    <a href="?page={{ notes.paginator.num_pages }}">в конец &raquo;</a>
                 {% endif %}
             </span>
         </div>

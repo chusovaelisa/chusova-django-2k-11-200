@@ -5,6 +5,7 @@ from datetime import date
 
 
 class Category(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE, default=1)
     category_type = models.CharField(max_length=255)
 
     def __str__(self):
